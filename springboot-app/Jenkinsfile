@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from your Git repository
+                git 'https://github.com/anasuyamithra/phase5.git'
+            }
+        }
+        stage('Test') {
+            steps {
+                // Build and test your Spring Boot application
+                sh 'mvn clean test'
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                // Build the Docker image using the Dockerfile in your repository
+                sh 'docker build -t anasuyamithra/phase5:latest .'
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                // Push the Docker image to Docker Hub
+                sh 'docker login -u anasuyamithra -p ******'
+                sh 'docker push anasuyamithra/phase5:latest'
+            }
+        }
+    }
+}
